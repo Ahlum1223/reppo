@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, login ]
+  pull_request:
+    branches: [ main, login ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Change Directory (If package.json is inside a subfolder)
+        run: cd my-app
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: my-app  # Change this if needed
+
+      - name: Run Tests
+        run: npm test
+        working-directory: my-app
+
+      - name: Build Project
+        run: npm run build
+        working-directory: my-app
